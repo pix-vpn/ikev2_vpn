@@ -94,6 +94,7 @@ class MethodChannelFlutterVpn extends FlutterVpnPlatform {
     String? name,
     int? mtu,
     int? port,
+    List<String>? bypassPackages,
   }) async =>
       await methodChannel.invokeMethod('connect', {
         'Name': name ?? server,
