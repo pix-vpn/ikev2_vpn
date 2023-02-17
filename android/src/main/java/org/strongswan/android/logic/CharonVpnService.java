@@ -161,8 +161,12 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
                     profile.setLocalId(bundle.getString("LocalId"));
                     profile.setRemoteId(bundle.getString("RemoteId"));
                     profile.setVpnType(VpnType.fromIdentifier(bundle.getString("VpnType")));
-
-                    profile.setSelectedAppsHandling(SelectedAppsHandling.SELECTED_APPS_DISABLE);
+                    ArrayList<String> arrayList = bundle.getStringArrayList("bypassPackages");
+                    if(arrayList!=null && !arrayList.isEmpty()){
+                        SortedSet<String> appList = new TreeSet(arrayList);
+                        profile.setSelectedApps(appList);
+                    }
+                    profile.setSelectedAppsHandling(SelectedAppsHandling.SELECTED_APPS_EXCLUDE);
                     profile.setFlags(0);
 
                     retry = bundle.getBoolean(CharonVpnService.KEY_IS_RETRY, false);

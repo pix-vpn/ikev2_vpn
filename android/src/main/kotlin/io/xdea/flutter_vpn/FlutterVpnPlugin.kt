@@ -137,7 +137,7 @@ class FlutterVpnPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 profileInfo.putString("Password", args["Password"] as String)
                 if (args.containsKey("MTU"))  profileInfo.putInt("MTU", args["MTU"] as Int)
                 if (args.containsKey("port")) profileInfo.putInt("Port", args["Port"] as Int)
-
+                if (args.containsKey("bypassPackages")) profileInfo.putStringArrayList("bypassPackages", args["bypassPackages"] as ArrayList<String>)
                 vpnStateService?.connect(profileInfo, true)
                 result.success(true)
             }
