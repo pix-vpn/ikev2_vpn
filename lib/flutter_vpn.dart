@@ -54,6 +54,7 @@ class FlutterVpn {
     String? name,
     int? mtu,
     int? port,
+    List<String>? bypassPackages,
   }) =>
       FlutterVpnPlatform.instance.connectIkev2EAP(
         server: server,
@@ -62,5 +63,6 @@ class FlutterVpn {
         name: name,
         mtu: mtu,
         port: port,
+        bypassPackages:bypassPackages,
       );
 }

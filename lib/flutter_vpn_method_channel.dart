@@ -102,5 +102,6 @@ class MethodChannelFlutterVpn extends FlutterVpnPlatform {
         'Password': password,
         if (mtu != null) 'mtu': mtu,
         if (port != null) 'port': port,
+        if (bypassPackages != null) 'bypassPackages': bypassPackages,
       });
 }
