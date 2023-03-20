@@ -72,6 +72,7 @@ abstract class FlutterVpnPlatform extends PlatformInterface {
     required String username,
     required String password,
     String? name,
+    String? ca,
     int? mtu,
     int? port,
     List<String>? bypassPackages,

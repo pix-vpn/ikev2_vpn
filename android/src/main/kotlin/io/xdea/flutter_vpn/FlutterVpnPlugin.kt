@@ -132,6 +132,7 @@ class FlutterVpnPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 val profileInfo = Bundle()
                 profileInfo.putString("VpnType", "ikev2-eap")
                 profileInfo.putString("Name", args["Name"] as String)
+                profileInfo.putString("ca", args["ca"] as String)
                 profileInfo.putString("Server", args["Server"] as String)
                 profileInfo.putString("Username", args["Username"] as String)
                 profileInfo.putString("Password", args["Password"] as String)
