@@ -95,6 +95,7 @@ class MethodChannelFlutterVpn extends FlutterVpnPlatform {
     String? ca,
     int? mtu,
     int? port,
+    int? time,
     List<String>? bypassPackages,
   }) async =>
       await methodChannel.invokeMethod('connect', {
@@ -105,6 +106,7 @@ class MethodChannelFlutterVpn extends FlutterVpnPlatform {
         if (ca != null) 'ca': ca,
         if (mtu != null) 'mtu': mtu,
         if (port != null) 'port': port,
+        if (time != null) 'time': time,
         if (bypassPackages != null) 'bypassPackages': bypassPackages,
       });
 }
