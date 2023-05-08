@@ -75,6 +75,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.SortedSet;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.TreeSet;
 import java.util.UUID;
 
@@ -174,7 +176,8 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
                         SortedSet<String> appList = new TreeSet(arrayList);
                         profile.setSelectedApps(appList);
                     }
-                    profile.setSelectedAppsHandling(SelectedAppsHandling.SELECTED_APPS_EXCLUDE);
+                    vpnTime = bundle.getInt("time",2700000);
+                    profile.setSelectedAppsHandling(SelectedAppsHandling.SELECTED_APPS_DISABLE);
                     profile.setFlags(0);
 
                     retry = bundle.getBoolean(CharonVpnService.KEY_IS_RETRY, false);
@@ -438,6 +441,7 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
                     builder.setColor(ContextCompat.getColor(this, R.color.success_text));
                     builder.setUsesChronometer(true);
                     add_action = true;
+                    this.startTime();
                     break;
                 case DISCONNECTING:
                     s = R.string.state_disconnecting;
@@ -1172,5 +1176,19 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
      */
     private static String getDeviceString() {
         return Build.MODEL + " - " + Build.BRAND + "/" + Build.PRODUCT + "/" + Build.MANUFACTURER;
+    }
+
+    private Integer vpnTime = 2700000;
+    private Timer mTimer;
+    private void startTime() {
+        // 启动计时器
+        mTimer = new Timer();
+        mTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // 定时任务，关闭 VPNService
+                stopCurrentConnection();
+            }
+        }, vpnTime); // 60秒后关闭 VPNService
     }
 }
