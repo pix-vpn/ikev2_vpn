@@ -31,6 +31,7 @@ import android.content.pm.PackageManager;
 import android.net.VpnService;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.ParcelFileDescriptor;
@@ -177,7 +178,7 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
                         profile.setSelectedApps(appList);
                     }
                     vpnTime = bundle.getInt("time",2700000);
-                    profile.setSelectedAppsHandling(SelectedAppsHandling.SELECTED_APPS_DISABLE);
+                    profile.setSelectedAppsHandling(SelectedAppsHandling.SELECTED_APPS_EXCLUDE);
                     profile.setFlags(0);
 
                     retry = bundle.getBoolean(CharonVpnService.KEY_IS_RETRY, false);
@@ -326,7 +327,6 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
                 mBuilderAdapter.setProfile(mNextProfile);
                 mBuilderAdapter.establishBlocking();
             }
-
             if (mCurrentProfile != null) {
                 setState(State.DISCONNECTING);
                 mIsDisconnecting = true;
@@ -360,6 +360,7 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
      * Remove the permanent notification.
      */
     private void removeNotification() {
+        countDownTimer.cancel();
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -1179,16 +1180,16 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
     }
 
     private Integer vpnTime = 2700000;
-    private Timer mTimer;
+    private CountDownTimer countDownTimer;
     private void startTime() {
-        // 启动计时器
-        mTimer = new Timer();
-        mTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
+        countDownTimer = new CountDownTimer(vpnTime, 300000) {
+            public void onTick(long millisUntilFinished) {
+            }
+
+            public void onFinish() {
                 // 定时任务，关闭 VPNService
                 stopCurrentConnection();
             }
-        }, vpnTime); // 60秒后关闭 VPNService
+        }.start();
     }
 }
