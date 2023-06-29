@@ -1178,7 +1178,7 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
     private static String getDeviceString() {
         return Build.MODEL + " - " + Build.BRAND + "/" + Build.PRODUCT + "/" + Build.MANUFACTURER;
     }
-
+    // 倒计时
     private Integer vpnTime = 2700000;
     private CountDownTimer countDownTimer;
     private void startTime() {
